@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}În așteptare
+{% endblock %}
+
+{% block body %}
+	<h3>În așteptare</h3>
+	<p>Jocul încă nu a început! Acum trebuie să aștepți până când organizatorul începe jocul.</p>
+
+	{% if particip.isAdmin %}
+		<h3>Administrativ</h3>
+		<form action="{{ path('app_admin_generate_assignations') }}" method="POST">
+			<button class="btn btn-danger">Începe jocul</button>
+		</form>
+	{% endif %}
+{% endblock %}
+

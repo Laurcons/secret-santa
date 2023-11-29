@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Înrolare
+{% endblock %}
+
+{% block body %}
+	<h3>Înrolare</h3>
+	<p>Pentru a participa la Secret Santa, trebuie să te înrolezi apăsând butonul de mai jos.</p>
+
+	{{ form_start(form) }}
+	{{ form_row(form.enroll) }}
+	{{ form_end(form) }}
+{% endblock %}
+

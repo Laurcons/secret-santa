@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autentificare
+{% endblock %}
+
+{% block body %}
+
+	<p><a href="{{ path('app_login_begin') }}">Înapoi</a></p>
+
+	<p>Salut, {{ query.nickname }}!</p>
+
+	<p>Introdu un PIN pe care doar tu să îl știi, pe care să îl folosești în viitor.</p>
+	{{ form_start(form) }}
+	{{ form_row(form.passcode) }}
+	{{ form_row(form.submit) }}
+	{{ form_end(form) }}
+
+
+{% endblock %}
+

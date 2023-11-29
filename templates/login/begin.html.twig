@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autentificare
+{% endblock %}
+
+{% block body %}
+
+	<p>Salut! Pentru început, spune-mi cine ești.</p>
+	{{ form_start(form) }}
+	{{ form_row(form.nickname)}}
+	{{ form_row(form.submit)}}
+	{{ form_end(form) }}
+
+
+{% endblock %}

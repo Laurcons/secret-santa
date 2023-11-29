@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Persoana ta
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+		<div class="card-header">
+			Persoana ta este
+			<div class="text-center fs-3">
+				{{ particip.gifterAssignation.giftee.nickname }}
+				{{ particip.gifterAssignation.giftee.emoji }}
+			</div>
+		</div>
+		<div class="card-body">
+			<p>Ia-i un cadou frumos, din suflet. Am încredere în tine!</p>
+			{% if santa.anyConfig %}
+			<p>Reminder:</p>
+			<ul>
+				{% if santa.priceCeiling %}
+				<li>Prețul cadoului nu trebuie să depășească {{ santa.priceCeiling }}.</li>
+				{% endif %}
+				{% if santa.deadline %}
+				<li>Data în care ne întâlnim să dăm cadourile este {{ santa.deadline }}</li>
+				{% endif %}
+			</ul>
+			{% endif %}
+		</div>
+	</div>
+	{% endblock %}
+

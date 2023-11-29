@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autentificare
+{% endblock %}
+
+{% block body %}
+
+	<a href="{{ path('app_login_begin') }}">Înapoi</a>
+
+	<p>Salut, {{ query.nickname }}!</p>
+
+	<p>Introdu PIN-ul setat anterior pentru verificare.</p>
+	{% if error %}
+		<p class="text-danger">{{error}}</p>
+	{% endif %}
+	{% if ratelimit and ratelimit.remainingTokens < 3 and ratelimit.remainingTokens >= 0 and ratelimit.accepted %}
+		<p class="text-danger">Încercări rămase: {{ratelimit.remainingTokens + 1}}</p>
+	{% endif %}
+	{{ form_start(form) }}
+	{{ form_row(form._target_path) }}
+	{{ form_row(form._username) }}
+	{{ form_row(form._password) }}
+	{{ form_row(form.submit) }}
+	{{ form_end(form) }}
+
+
+{% endblock %}
+

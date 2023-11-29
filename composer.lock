@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bda6f2db4a91a2429cee91bfc866897",
+    "content-hash": "9b40f55b1d7644ad76e4ec05e0223ee9",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -4071,6 +4071,85 @@
             "time": "2023-10-28T23:11:45+00:00"
         },
         {
+            "name": "symfony/lock",
+            "version": "v6.3.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/lock.git",
+                "reference": "4f7c898fd966eacc38832ef2f8284a187b068cc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/4f7c898fd966eacc38832ef2f8284a187b068cc1",
+                "reference": "4f7c898fd966eacc38832ef2f8284a187b068cc1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/log": "^1|^2|^3",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "doctrine/dbal": "<2.13",
+                "symfony/cache": "<6.2"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.13|^3|^4",
+                "predis/predis": "^1.1|^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Lock\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérémy Derussé",
+                    "email": "jeremy@derusse.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Creates and manages locks, a mechanism to provide exclusive access to a shared resource",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "cas",
+                "flock",
+                "locking",
+                "mutex",
+                "redlock",
+                "semaphore"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/lock/tree/v6.3.9"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-11-20T21:40:37+00:00"
+        },
+        {
             "name": "symfony/mailer",
             "version": "v6.3.5",
             "source": {
@@ -5421,6 +5500,76 @@
             "time": "2023-05-19T08:06:44+00:00"
         },
         {
+            "name": "symfony/rate-limiter",
+            "version": "v6.3.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/rate-limiter.git",
+                "reference": "9e65b2ec0816a2fd3406f26d036c5a1b6feee101"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/9e65b2ec0816a2fd3406f26d036c5a1b6feee101",
+                "reference": "9e65b2ec0816a2fd3406f26d036c5a1b6feee101",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/options-resolver": "^5.4|^6.0"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "symfony/lock": "^5.4|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\RateLimiter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wouter de Jong",
+                    "email": "wouter@wouterj.nl"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a Token Bucket implementation to rate limit input and output in your application",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "limiter",
+                "rate-limiter"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/rate-limiter/tree/v6.3.8"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-11-10T07:40:52+00:00"
+        },
+        {
             "name": "symfony/routing",
             "version": "v6.3.5",
             "source": {
@@ -6626,16 +6775,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v6.3.8",
+            "version": "v6.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "f75b40e088d095db1e788b81605a76f4563cb80e"
+                "reference": "c118889931856af47b0732b609f3ac2ddccd1da6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/f75b40e088d095db1e788b81605a76f4563cb80e",
-                "reference": "f75b40e088d095db1e788b81605a76f4563cb80e",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/c118889931856af47b0732b609f3ac2ddccd1da6",
+                "reference": "c118889931856af47b0732b609f3ac2ddccd1da6",
                 "shasum": ""
             },
             "require": {
@@ -6702,7 +6851,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v6.3.8"
+                "source": "https://github.com/symfony/validator/tree/v6.3.9"
             },
             "funding": [
                 {
@@ -6718,7 +6867,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-07T10:17:15+00:00"
+            "time": "2023-11-29T07:44:47+00:00"
         },
         {
             "name": "symfony/var-dumper",
