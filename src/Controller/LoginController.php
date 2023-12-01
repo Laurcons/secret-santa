@@ -108,7 +108,7 @@ class LoginController extends AbstractController
             'form' => $form->createView(),
             'error' =>  $error,
             'query' => $_GET,
-            'ratelimit' => dump($request->getSession()->get('auth.ratelimit')),
+            'ratelimit' => $request->getSession()->get('auth.ratelimit'),
         ]);
     }
 
@@ -136,7 +136,6 @@ class LoginController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            dump($data);
             // set the passcode
             $hashed = $hasher->hashPassword($particip, $data->getPasscode());
             $particip->setPasscode($hashed);

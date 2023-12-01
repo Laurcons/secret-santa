@@ -44,7 +44,6 @@ class RateLimiterProtectionListener implements EventSubscriberInterface
         $limiter = $this->loginLimiter->create($nick);
         $limit = $limiter->consume(1);
         $badge->setRateLimit($limit);
-        dump($limit);
 
         $passport->setAttribute('ratelimit', $limit);
 
