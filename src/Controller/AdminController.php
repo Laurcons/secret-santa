@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Assignation;
-use App\Repository\AssignationRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +14,6 @@ class AdminController extends AbstractController
     #[Route('/admin/generate_assignations', methods: ['POST'], name: 'app_admin_generate_assignations')]
     public function index(
         ParticipantRepository $participRepo,
-        AssignationRepository $asnRepo,
         ManagerRegistry $doctrine,
     ): Response {
         $manager = $doctrine->getManager();
@@ -28,27 +26,30 @@ class AdminController extends AbstractController
             ->getResult();
 
         $currentP = $particips[0];
-        $assignedIds = [];
+        $assignedList = [];
         $total = count($particips);
-        $remaining = $total;
-        while ($remaining !== 0) {
-            $assigned = null;
-            while ($assigned === null) {
+        while (count($assignedList) !== count($particips)) {
+            $giftee = null;
+            while ($giftee === null) {
                 $idx = rand(0, $total - 1);
-                $asn = $particips[$idx];
-                if (array_search($asn->getId(), $assignedIds) === false) {
-                    $assigned = $asn;
+                $candidate = $particips[$idx];
+                if (
+                    $currentP->getId() !== $candidate->getId() &&
+                    // allow gifting idx 0 ONLY when everyone else is gifted
+                    (count($assignedList) === $total - 1 || $candidate->getId() !== $particips[0]->getId()) &&
+                    array_search($candidate->getId(), $assignedList) === false
+                ) {
+                    $giftee = $candidate;
                 }
             }
             // create the assignation from currentP to assigned
             $asn = new Assignation();
             $asn->setGifter($currentP);
-            $asn->setGiftee($assigned);
+            $asn->setGiftee($giftee);
             $manager->persist($asn);
             // prepare next loop
-            $assignedIds[] = $assigned->getId();
-            $remaining--;
-            $currentP = $assigned;
+            $assignedList[] = $giftee->getId();
+            $currentP = $giftee;
         }
         $manager->flush();
 
