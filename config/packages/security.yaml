@@ -15,9 +15,6 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            # form_login:
-            #     check_path: app_login_login
-            #     login_path: app_login_login
             custom_authenticators:
                 - App\Security\CustomLoginAuthenticator
 
@@ -32,7 +29,7 @@ security:
     access_control:
         - { path: ^/santa, roles: ROLE_PARTICIPANT }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS, allow_if: "not is_granted('ROLE_PARTICIPANT')" }
 
 when@test:
     security:
