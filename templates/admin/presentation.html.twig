@@ -1,0 +1,232 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prezentare
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .position-transition {
+        position: relative;
+        height: 170px;
+    }
+    .person {
+        transition: all 500ms cubic-bezier(0.46, 1.38, 0.57, 1);
+        display: inline-block;
+        position: absolute;
+    }
+    .default-hidden {
+        opacity: 0%;
+    }
+    .arrow-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%)
+    }
+    .arrow-container {
+        display: flex;
+        gap: 15px;
+    }
+    .arrow {
+        transform: rotate(-25deg);
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        Crăciunelul secret...
+    </div>
+    <div class="card-body position-transition js-anim-area p-0">
+        <div class="fs-1 person js-person">
+            
+        </div>
+        <div class="fs-1 person js-person">
+            {{ frontendData.assignations[0].gifter.nickname }}
+        </div>
+        <div class="fs-1 person js-person default-hidden">
+            {{ frontendData.assignations[0].giftee.nickname }}
+        </div>
+        <div class="arrow-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-gift" viewBox="0 0 16 16">
+                <path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A2.968 2.968 0 0 1 3 2.506zm1.068.5H7v-.5a1.5 1.5 0 1 0-3 0c0 .085.002.274.045.43a.522.522 0 0 0 .023.07M9 3h2.932a.56.56 0 0 0 .023-.07c.043-.156.045-.345.045-.43a1.5 1.5 0 0 0-3 0zM1 4v2h6V4zm8 0v2h6V4zm5 3H9v8h4.5a.5.5 0 0 0 .5-.5zm-7 8V7H2v7.5a.5.5 0 0 0 .5.5z"/>
+            </svg>
+            <div class="arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-down-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14 13.5a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1 0-1h4.793L2.146 2.854a.5.5 0 1 1 .708-.708L13 12.293V7.5a.5.5 0 0 1 1 0z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-end">
+        îi dă cadou lui...
+    </div>
+</div>
+
+<button class="mt-5 btn btn-outline-danger js-next">Următoarea asignare</button>
+
+<script id="PAGE_DATA" type="text/plain">
+    {{ frontendData | json_encode | raw }}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></script>
+<script>
+    const PAGE_DATA = JSON.parse(document.getElementById('PAGE_DATA').innerHTML);
+    let currentAssignation = 0;
+    let viewportWidth;
+    const paddingTop = 16;
+    const paddingX = 48;
+
+    function incrementAssignation() {
+        document.querySelector('.js-next').setAttribute('disabled', 'true');
+
+        const [oldGifter$, newGifter$, newGiftee$] = document.querySelectorAll('.js-person');
+        console.log({ oldGifter$, newGifter$, newGiftee$});
+        oldGifter$.style.left = `0px`;
+        oldGifter$.style.opacity = `0%`;
+        newGifter$.style.left = `${paddingX}px`;
+        newGifter$.style.top = `${paddingTop}px`;
+        newGiftee$.style.left = `${viewportWidth - paddingX - newGiftee$.offsetWidth}px`;
+        newGiftee$.style.opacity = `100%`;
+        doAnimation();
+
+        // prepare next assignation
+        setTimeout(() => {
+            currentAssignation++;
+            if (currentAssignation >= PAGE_DATA.assignations.length) {
+                currentAssignation = 0;
+            }
+            const asn = PAGE_DATA.assignations[currentAssignation];
+
+            const [first$] = document.querySelectorAll('.js-person');
+            first$.remove();
+            const newGiftee$ = document.createElement('div');
+            newGiftee$.classList.add('fs-1', 'person', 'js-person');
+            newGiftee$.style.top = '100px';
+            newGiftee$.style.opacity = `0%`;
+            newGiftee$.innerText = asn.giftee.nickname;
+            document.querySelector('.js-anim-area').appendChild(newGiftee$);
+            setTimeout(() => newGiftee$.style.left = `${viewportWidth - newGiftee$.offsetWidth}px`, 1);
+
+            document.querySelector('.js-next').removeAttribute('disabled', 'true');
+        }, 500);
+    }
+
+    function doAnimation() {
+        const end = Date.now() + 1 * 3000;
+
+        const colors = ["#bb0000", "#ffffff"];
+
+        // left-right 
+        (function frame() {
+        confetti({
+            particleCount: 2,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors,
+            shapes: ['star'],
+        });
+
+        confetti({
+            particleCount: 2,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors,
+            shapes: ['star'],
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+        })();
+
+        // from bottom
+        const randomInRange = (min, max) => Math.random() * (max - min) + min;
+        let count = 25;
+        const confet = () => {
+            confetti({
+                angle: randomInRange(30, 150),
+                spread: randomInRange(70, 90),
+                particleCount: randomInRange(15, 20),
+                origin: { y: 1 },
+                shapes: ['emoji'],
+                scalar: 3,
+                shapeOptions: {
+                    emoji: {
+                        value: ['🍬', '🍭', '🍓', '🍡', '🍫', '🍩']
+                    }
+                }
+            });
+            if (count <= 0) return;
+            count--;
+            setTimeout(confet, 300);
+        };
+        confet();
+    }
+
+    window.onload = () => {
+        viewportWidth = document.querySelector('.js-anim-area').offsetWidth;
+
+        const [gifter$, giftee$, nextGiftee$] = document.querySelectorAll('.js-person');
+        gifter$.style.left = `${paddingX}px`;
+        gifter$.style.top = `${paddingTop}px`;
+        
+        giftee$.style.top = `100px`;
+        giftee$.style.left = `${viewportWidth - paddingX - giftee$.offsetWidth}px`;
+
+        nextGiftee$.style.top = '100px';
+        nextGiftee$.style.opacity = `0%`;
+        setTimeout(() => nextGiftee$.style.left = `${viewportWidth - nextGiftee$.offsetWidth}px`, 1);
+
+        // setInterval(() => incrementAssignation(), 1000);
+        document.querySelector('.js-next').onclick = incrementAssignation;
+
+        snow();
+    };
+
+    function snow() {
+        // const duration = 15 * 1000,
+        // animationEnd = Date.now() + duration;
+
+        let skew = 1;
+        let count = 0;
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        (function frame() {
+            if (count === 0) {
+                count = 20;
+            } else {
+                count--;
+                requestAnimationFrame(frame);
+                return;
+            }
+
+            skew = Math.max(0.8, skew - 0.001);
+
+            confetti({
+                particleCount: 1,
+                startVelocity: 0,
+                // ticks: ticks,
+                origin: {
+                    x: Math.random(),
+                    // since particles fall down, skew start toward the top
+                    y: Math.random() * skew - 0.2,
+                },
+                colors: ["#efefef"],
+                shapes: ["circle"],
+                gravity: randomInRange(0.1, 0.2),
+                scalar: randomInRange(0.4, 1),
+                drift: randomInRange(-0.4, 0.4),
+            });
+
+        // if (timeLeft > 0) {
+            requestAnimationFrame(frame);
+        // }
+        })();
+    }
+</script>
+{% endblock %}

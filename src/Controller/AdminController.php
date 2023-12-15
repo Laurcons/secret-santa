@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Assignation;
+use App\Repository\AssignationRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,5 +55,28 @@ class AdminController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute("app_santa");
+    }
+
+    #[Route('/admin/presentation', 'app_admin_presentation')]
+    public function presentation(
+        AssignationRepository $asnRepo
+    ) {
+        $asns = $asnRepo->findAll();
+        return $this->render('admin/presentation.html.twig', [
+            'frontendData' => [
+                'assignations' => array_map(function ($item) {
+                    return [
+                        'gifter' => [
+                            'nickname' => $item->getGifter()->getNickname(),
+                            'emoji' => $item->getGifter()->getEmoji(),
+                        ],
+                        'giftee' => [
+                            'nickname' => $item->getGiftee()->getNickname(),
+                            'emoji' => $item->getGiftee()->getEmoji(),
+                        ]
+                    ];
+                }, $asns),
+            ]
+        ]);
     }
 }
